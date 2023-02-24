@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Restaurant Order App</title>
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            /* background-image: url('https://img.freepik.com/premium-vector/school-seamless-scientific-pattern-formulae-chemistry-physics-geometry-mathematics_275952-179.jpg?w=996'); */
+            background-image: url('https://images.unsplash.com/photo-1614850523060-8da1d56ae167?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGlnaHQlMjBjb2xvdXJ8ZW58MHx8MHx8&w=1000&q=80');
+
+        }
+
+
+        label {
+            color: #333;
+        }
+
+        .btn-send {
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            width: 80%;
+            margin-left: 3px;
+        }
+
+        .help-block.with-errors {
+            color: #ff5050;
+            margin-top: 5px;
+
+        }
+
+        .card {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        hr {
+            border-color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row ">
+
+            <div class="col-lg-7 mx-auto">
+                <div class="card mt-2 mx-auto p-4 bg-light">
+                    <div class="card-body bg-light">
+
+                        <div class="container">
+                            <form id="contact-form" role="form">
+
+
+
+                                <div class="controls">
+                                    <div class=" text-center ">
+                                        <h1>Restaurant Order App</h1>
+                                    </div>
+                                    <div class=" text-center ">
+                                        <small>Choose Dish, Enter Amount And Table Number</small>
+                                    </div>
+                                    <div class=" text-center ">
+                                        <hr>
+                                        </hr>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="form_name">Choose Price: </label>
+                                                <input id="form_name" type="text" name="name" class="form-control"
+                                                    placeholder="Enter Amount..." required="required"
+                                                    data-error="Firstname is required.">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="form_email">Choose Dish: </label>
+                                                <input id="form_descrp" type="text" name="description"
+                                                    class="form-control" placeholder="Enter Detail..."
+                                                    required="required" data-error="Valid email is required.">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="id-catogary"> Choose A Table: </label>
+                                                <select class="form-control" aria-label="Default select example"
+                                                    id="id-catogary">
+                                                    <option value="Table 1">Table 1</option>
+                                                    <option value="Table 2">Table 2</option>
+                                                    <option value="Table 3">Table 3</option>
+                                                    <option value="Table 4">Table 4</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="col-md-12">
+                                            <input type="submit" class="btn btn-secondary btn-send  pt-2 btn-block"
+                                                value="Add To Bill">
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+
+                </div>
+                <!-- /.8 -->
+
+            </div>
+            <!-- /.row-->
+
+        </div>
+    </div>
+    <ul id="unorder-list">
+
+    </ul>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script>
+        //adding user detail on to the API
+        let flag = false;
+        let editId;
+        let listItems = document.getElementById('unorder-list');
+
+        // var storeExpAmount = e.target.name.value;
+        // var storeExpAmount = document.querySelector('#form_name').value;
+        // var storeDescription = document.querySelector('#form_descrp').value;
+        // var storeCatogary = document.querySelector('#id-catogary').value;
+
+        let form = document.getElementById('contact-form');
+
+        form.addEventListener('submit', submitForm);
+
+        //submit starts here
+        function submitForm(e) {
+            e.preventDefault();
+
+            //if edit button clicked
+            if (flag) {
+                listItems.innerHTML = ``;
+                axios.put(`https://crudcrud.com/api/e2f6d4dec8de4684b2fc4fdc549e57ab/order/${editId}`, {
+                    Order_Amount: document.querySelector('#form_name').value,
+                    Dish: document.querySelector('#form_descrp').value,
+                    Table: document.querySelector('#id-catogary').value
+                })
+                    .then(para => {
+                        axios.get('https://crudcrud.com/api/e2f6d4dec8de4684b2fc4fdc549e57ab/order')
+                            .then(res => {
+                                for (let j in res.data) {
+                                    //li for amount
+                                    let listItem1 = document.createElement('li');
+                                    listItem1.id = 'item1';
+                                    listItem1.className = 'class-item1';
+                                    listItem1.appendChild(document.createTextNode('Order_Amount: ' + res.data[j].Order_Amount));
+                                    listItems.appendChild(listItem1);
+
+                                    //li for description
+                                    let listItem2 = document.createElement('li');
+                                    listItem2.id = 'item2';
+                                    listItem2.className = 'class-item2';
+                                    listItem2.appendChild(document.createTextNode('Dish: ' + res.data[j].Dish));
+                                    listItems.appendChild(listItem2);
+
+                                    //li for catogary
+                                    let listItem3 = document.createElement('li');
+                                    listItem3.id = 'item3';
+                                    listItem3.className = 'class-item3';
+                                    listItem3.appendChild(document.createTextNode('Table: ' + res.data[j].Table));
+                                    listItems.appendChild(listItem3);
+
+                                    // listItems.innerHTML = `${listItems.innerHTML}
+                                    //     <li id="item1"  class="class-item1">Expence_Amount: ${storeExpAmount}</li>
+                                    //     <li id="item2"  class="class-item2">Description: ${storeDescription}</li>
+                                    //     <li id="item3"  class="class-item3">Catogary: ${storeCatogary}</li>
+                                    //     <button type="button" id="dlBtn">Delete Expence</button>
+                                    //     <button type="button" id="edtBtn">Edit Expence</button>
+                                    // `;
+
+                                    //adding delete button 
+                                    let deleteBtn = document.createElement('button');
+                                    deleteBtn.type = 'button';
+                                    deleteBtn.id = 'dlBtn';
+                                    deleteBtn.appendChild(document.createTextNode('Delete Order'));
+                                    listItems.appendChild(deleteBtn);
+
+                                    //adding edit button 
+                                    let editBtn = document.createElement('button');
+                                    editBtn.type = 'button';
+                                    editBtn.id = 'edtBtn';
+                                    editBtn.appendChild(document.createTextNode('Edit Order'));
+                                    listItems.appendChild(editBtn);
+
+                                    deleteBtn.onclick = () => {
+                                        axios.delete(`https://crudcrud.com/api/e2f6d4dec8de4684b2fc4fdc549e57ab/order/${res.data[j]._id}`)
+                                        listItems.removeChild(listItem1);
+                                        listItems.removeChild(listItem2);
+                                        listItems.removeChild(listItem3);
+                                        listItems.removeChild(deleteBtn);
+                                        listItems.removeChild(editBtn);
+                                    }
+
+                                    editBtn.onclick = () => {
+                                        flag = true;
+                                        editId = res.data[j]._id;
+                                        let edit_expence = document.querySelector('#form_name');
+                                        let edit_description = document.querySelector('#form_descrp');
+                                        let edit_catogary = document.querySelector('#id-catogary');
+
+                                        edit_expence.value = res.data[j].Order_Amount;
+                                        edit_description.value = res.data[j].Dish;
+                                        edit_catogary.value = res.data[j].Table;
+                                    }
+                                }
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            });
+                    })
+                    .catch(paraErr => console.log(paraErr))
+                flag = false;
+            }
+            else {
+                //storing into local storage
+                let User_1 = {
+                    Order_Amount: e.target.name.value,
+                    Dish: e.target.description.value,
+                    Table: document.querySelector('#id-catogary').value
+                };
+
+                // localStorage.setItem(User_1.Catogary, JSON.stringify(User_1));
+                axios.post('https://crudcrud.com/api/e2f6d4dec8de4684b2fc4fdc549e57ab/order', User_1)
+                    .then(res => {
+                        //creating li tags and show the data on the page
+
+                        //li for amount
+                        let listItem1 = document.createElement('li');
+                        listItem1.id = 'item1';
+                        listItem1.className = 'class-item1';
+                        listItem1.appendChild(document.createTextNode('Order_Amount: ' + res.data.Order_Amount));
+                        listItems.appendChild(listItem1);
+
+                        //li for description
+                        let listItem2 = document.createElement('li');
+                        listItem2.id = 'item2';
+                        listItem2.className = 'class-item2';
+                        listItem2.appendChild(document.createTextNode('Dish: ' + res.data.Dish));
+                        listItems.appendChild(listItem2);
+
+                        //li for catogary
+                        let listItem3 = document.createElement('li');
+                        listItem3.id = 'item3';
+                        listItem3.className = 'class-item3';
+                        listItem3.appendChild(document.createTextNode('Table: ' + res.data.Table));
+                        listItems.appendChild(listItem3);
+
+                        // listItems.innerHTML = `${listItems.innerHTML}
+                        //     <li id="item1"  class="class-item1">Expence_Amount: ${storeExpAmount}</li>
+                        //     <li id="item2"  class="class-item2">Description: ${storeDescription}</li>
+                        //     <li id="item3"  class="class-item3">Catogary: ${storeCatogary}</li>
+                        //     <button type="button" id="dlBtn">Delete Expence</button>
+                        //     <button type="button" id="edtBtn">Edit Expence</button>
+                        // `;
+
+                        //adding delete button 
+                        let deleteBtn = document.createElement('button');
+                        deleteBtn.type = 'button';
+                        deleteBtn.id = 'dlBtn';
+                        deleteBtn.appendChild(document.createTextNode('Delete Order'));
+                        listItems.appendChild(deleteBtn);
+
+                        //adding edit button 
+                        let editBtn = document.createElement('button');
+                        editBtn.type = 'button';
+                        editBtn.id = 'edtBtn';
+                        editBtn.appendChild(document.createTextNode('Edit Order'));
+                        listItems.appendChild(editBtn);
+
+                        deleteBtn.onclick = () => {
+                            axios.delete(`https://crudcrud.com/api/e2f6d4dec8de4684b2fc4fdc549e57ab/order/${res.data._id}`);
+                            listItems.removeChild(listItem1);
+                            listItems.removeChild(listItem2);
+                            listItems.removeChild(listItem3);
+                            listItems.removeChild(deleteBtn);
+                            listItems.removeChild(editBtn);
+                        }
+
+
+                        editBtn.onclick = () => {
+                            flag = true;
+                            editId = res.data._id;
+                            let edit_expence = document.querySelector('#form_name');
+                            let edit_description = document.querySelector('#form_descrp');
+                            let edit_catogary = document.querySelector('#id-catogary');
+
+                            edit_expence.value = res.data.Order_Amount;
+                            edit_description.value = res.data.Dish;
+                            edit_catogary.value = res.data.Table;
+                        }
+                    })
+                    .catch(err => console.log(err));
+            }
+        }//submit ends here
+
+        // when page refresh starts here
+
+        axios.get('https://crudcrud.com/api/e2f6d4dec8de4684b2fc4fdc549e57ab/order')
+            .then(res => {
+                for (let j in res.data) {
+                    //li for amount
+                    let listItem1 = document.createElement('li');
+                    listItem1.id = 'item1';
+                    listItem1.className = 'class-item1';
+                    listItem1.appendChild(document.createTextNode('Order_Amount: ' + res.data[j].Order_Amount));
+                    listItems.appendChild(listItem1);
+
+                    //li for description
+                    let listItem2 = document.createElement('li');
+                    listItem2.id = 'item2';
+                    listItem2.className = 'class-item2';
+                    listItem2.appendChild(document.createTextNode('Dish: ' + res.data[j].Dish));
+                    listItems.appendChild(listItem2);
+
+                    //li for catogary
+                    let listItem3 = document.createElement('li');
+                    listItem3.id = 'item3';
+                    listItem3.className = 'class-item3';
+                    listItem3.appendChild(document.createTextNode('Table: ' + res.data[j].Table));
+                    listItems.appendChild(listItem3);
+
+                    // listItems.innerHTML = `${listItems.innerHTML}
+                    //     <li id="item1"  class="class-item1">Expence_Amount: ${storeExpAmount}</li>
+                    //     <li id="item2"  class="class-item2">Description: ${storeDescription}</li>
+                    //     <li id="item3"  class="class-item3">Catogary: ${storeCatogary}</li>
+                    //     <button type="button" id="dlBtn">Delete Expence</button>
+                    //     <button type="button" id="edtBtn">Edit Expence</button>
+                    // `;
+
+                    //adding delete button 
+                    let deleteBtn = document.createElement('button');
+                    deleteBtn.type = 'button';
+                    deleteBtn.id = 'dlBtn';
+                    deleteBtn.appendChild(document.createTextNode('Delete Expence'));
+                    listItems.appendChild(deleteBtn);
+
+                    //adding edit button 
+                    let editBtn = document.createElement('button');
+                    editBtn.type = 'button';
+                    editBtn.id = 'edtBtn';
+                    editBtn.appendChild(document.createTextNode('Edit Expence'));
+                    listItems.appendChild(editBtn);
+
+                    deleteBtn.onclick = () => {
+                        axios.delete(`https://crudcrud.com/api/e2f6d4dec8de4684b2fc4fdc549e57ab/order/${res.data[j]._id}`)
+                        listItems.removeChild(listItem1);
+                        listItems.removeChild(listItem2);
+                        listItems.removeChild(listItem3);
+                        listItems.removeChild(deleteBtn);
+                        listItems.removeChild(editBtn);
+                    }
+
+                    editBtn.onclick = () => {
+                        flag = true;
+                        editId = res.data[j]._id;
+                        let edit_expence = document.querySelector('#form_name');
+                        let edit_description = document.querySelector('#form_descrp');
+                        let edit_catogary = document.querySelector('#id-catogary');
+
+                        edit_expence.value = res.data[j].Order_Amount;
+                        edit_description.value = res.data[j].Dish;
+                        edit_catogary.value = res.data[j].Table;
+                    }
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });//when refresh page ends here
+
+    </script>
+
+</body>
+
+</html>
