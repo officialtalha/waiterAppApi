@@ -33,7 +33,7 @@
             width: 80%;
             margin-left: 3px;
         }
-        
+
 
         .help-block.with-errors {
             color: #ff5050;
@@ -142,6 +142,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
     <script>
+
         //adding user detail on to the API
         let flag = false;
         let editId;
@@ -161,102 +162,99 @@
             e.preventDefault();
 
             //if edit button clicked
-            if (flag) {
-                listItems.innerHTML = ``;
-                axios.put(`https://crudcrud.com/api/22a756973ed643e681ab6a189bb4a661/order/${editId}`, {
-                    Order_Amount: document.querySelector('#form_name').value,
-                    Dish: document.querySelector('#form_descrp').value,
-                    Table: document.querySelector('#id-catogary').value
-                })
-                    .then(para => {
-                        axios.get('https://crudcrud.com/api/22a756973ed643e681ab6a189bb4a661/order')
-                            .then(res => {
-                                for (let j in res.data) {
-                                    //li for amount
-                                    let listItem1 = document.createElement('li');
-                                    listItem1.id = 'item1';
-                                    listItem1.className = 'class-item1';
-                                    listItem1.appendChild(document.createTextNode('Order_Amount: ' + res.data[j].Order_Amount));
-                                    listItems.appendChild(listItem1);
+            let DataApi = async () => {
+                try {
+                    if (flag) {
+                        listItems.innerHTML = ``;
 
-                                    //li for description
-                                    let listItem2 = document.createElement('li');
-                                    listItem2.id = 'item2';
-                                    listItem2.className = 'class-item2';
-                                    listItem2.appendChild(document.createTextNode('Dish: ' + res.data[j].Dish));
-                                    listItems.appendChild(listItem2);
+                        let res1 = await axios.put(`https://crudcrud.com/api/c84f01b99c404c5895c6e43ef0df305e/order/${editId}`, {
+                            Order_Amount: document.querySelector('#form_name').value,
+                            Dish: document.querySelector('#form_descrp').value,
+                            Table: document.querySelector('#id-catogary').value
+                        });
 
-                                    //li for catogary
-                                    let listItem3 = document.createElement('li');
-                                    listItem3.id = 'item3';
-                                    listItem3.className = 'class-item3';
-                                    listItem3.appendChild(document.createTextNode('Table: ' + res.data[j].Table));
-                                    listItems.appendChild(listItem3);
+                        let res = await axios.get('https://crudcrud.com/api/c84f01b99c404c5895c6e43ef0df305e/order');
 
-                                    // listItems.innerHTML = `${listItems.innerHTML}
-                                    //     <li id="item1"  class="class-item1">Expence_Amount: ${storeExpAmount}</li>
-                                    //     <li id="item2"  class="class-item2">Description: ${storeDescription}</li>
-                                    //     <li id="item3"  class="class-item3">Catogary: ${storeCatogary}</li>
-                                    //     <button type="button" id="dlBtn">Delete Expence</button>
-                                    //     <button type="button" id="edtBtn">Edit Expence</button>
-                                    // `;
+                        for (let j in res.data) {
+                            //li for amount
+                            let listItem1 = document.createElement('li');
+                            listItem1.id = 'item1';
+                            listItem1.className = 'class-item1';
+                            listItem1.appendChild(document.createTextNode('Order_Amount: ' + res.data[j].Order_Amount));
+                            listItems.appendChild(listItem1);
 
-                                    //adding delete button 
-                                    let deleteBtn = document.createElement('button');
-                                    deleteBtn.type = 'button';
-                                    deleteBtn.id = 'dlBtn';
-                                    deleteBtn.className = 'dltBtnClass';
-                                    deleteBtn.appendChild(document.createTextNode('Delete Order'));
-                                    listItems.appendChild(deleteBtn);
+                            //li for description
+                            let listItem2 = document.createElement('li');
+                            listItem2.id = 'item2';
+                            listItem2.className = 'class-item2';
+                            listItem2.appendChild(document.createTextNode('Dish: ' + res.data[j].Dish));
+                            listItems.appendChild(listItem2);
 
-                                    //adding edit button 
-                                    let editBtn = document.createElement('button');
-                                    editBtn.type = 'button';
-                                    editBtn.id = 'edtBtn';
-                                    editBtn.className = 'edtBtnClass';
-                                    editBtn.appendChild(document.createTextNode('Edit Order'));
-                                    listItems.appendChild(editBtn);
+                            //li for catogary
+                            let listItem3 = document.createElement('li');
+                            listItem3.id = 'item3';
+                            listItem3.className = 'class-item3';
+                            listItem3.appendChild(document.createTextNode('Table: ' + res.data[j].Table));
+                            listItems.appendChild(listItem3);
 
-                                    deleteBtn.onclick = () => {
-                                        axios.delete(`https://crudcrud.com/api/22a756973ed643e681ab6a189bb4a661/order/${res.data[j]._id}`)
-                                        listItems.removeChild(listItem1);
-                                        listItems.removeChild(listItem2);
-                                        listItems.removeChild(listItem3);
-                                        listItems.removeChild(deleteBtn);
-                                        listItems.removeChild(editBtn);
-                                    }
+                            // listItems.innerHTML = `${listItems.innerHTML}
+                            //     <li id="item1"  class="class-item1">Expence_Amount: ${storeExpAmount}</li>
+                            //     <li id="item2"  class="class-item2">Description: ${storeDescription}</li>
+                            //     <li id="item3"  class="class-item3">Catogary: ${storeCatogary}</li>
+                            //     <button type="button" id="dlBtn">Delete Expence</button>
+                            //     <button type="button" id="edtBtn">Edit Expence</button>
+                            // `;
 
-                                    editBtn.onclick = () => {
-                                        flag = true;
-                                        editId = res.data[j]._id;
-                                        let edit_expence = document.querySelector('#form_name');
-                                        let edit_description = document.querySelector('#form_descrp');
-                                        let edit_catogary = document.querySelector('#id-catogary');
+                            //adding delete button 
+                            let deleteBtn = document.createElement('button');
+                            deleteBtn.type = 'button';
+                            deleteBtn.id = 'dlBtn';
+                            deleteBtn.className = 'dltBtnClass';
+                            deleteBtn.appendChild(document.createTextNode('Delete Order'));
+                            listItems.appendChild(deleteBtn);
 
-                                        edit_expence.value = res.data[j].Order_Amount;
-                                        edit_description.value = res.data[j].Dish;
-                                        edit_catogary.value = res.data[j].Table;
-                                    }
-                                }
-                            })
-                            .catch(err => {
-                                console.log(err);
-                            });
-                    })
-                    .catch(paraErr => console.log(paraErr))
-                flag = false;
-            }
-            else {
-                
-                let User_1 = {
-                    Order_Amount: e.target.name.value,
-                    Dish: e.target.description.value,
-                    Table: document.querySelector('#id-catogary').value
-                };
+                            //adding edit button 
+                            let editBtn = document.createElement('button');
+                            editBtn.type = 'button';
+                            editBtn.id = 'edtBtn';
+                            editBtn.className = 'edtBtnClass';
+                            editBtn.appendChild(document.createTextNode('Edit Order'));
+                            listItems.appendChild(editBtn);
 
-                
-                axios.post('https://crudcrud.com/api/22a756973ed643e681ab6a189bb4a661/order', User_1)
-                    .then(res => {
+                            deleteBtn.onclick = () => {
+                                axios.delete(`https://crudcrud.com/api/c84f01b99c404c5895c6e43ef0df305e/order/${res.data[j]._id}`);
+                                listItems.removeChild(listItem1);
+                                listItems.removeChild(listItem2);
+                                listItems.removeChild(listItem3);
+                                listItems.removeChild(deleteBtn);
+                                listItems.removeChild(editBtn);
+                            }
+
+                            editBtn.onclick = () => {
+                                flag = true;
+                                editId = res.data[j]._id;
+                                let edit_expence = document.querySelector('#form_name');
+                                let edit_description = document.querySelector('#form_descrp');
+                                let edit_catogary = document.querySelector('#id-catogary');
+
+                                edit_expence.value = res.data[j].Order_Amount;
+                                edit_description.value = res.data[j].Dish;
+                                edit_catogary.value = res.data[j].Table;
+                            }
+                        }
+                        flag = false;
+                    }
+
+                    else {
+
+                        let User_1 = {
+                            Order_Amount: e.target.name.value,
+                            Dish: e.target.description.value,
+                            Table: document.querySelector('#id-catogary').value
+                        };
+
+
+                        let res = await axios.post('https://crudcrud.com/api/c84f01b99c404c5895c6e43ef0df305e/order', User_1)
                         //creating li tags and show the data on the page
 
                         //li for amount
@@ -305,7 +303,7 @@
                         listItems.appendChild(editBtn);
 
                         deleteBtn.onclick = () => {
-                            axios.delete(`https://crudcrud.com/api/22a756973ed643e681ab6a189bb4a661/order/${res.data._id}`);
+                            axios.delete(`https://crudcrud.com/api/c84f01b99c404c5895c6e43ef0df305e/order/${res.data._id}`);
                             listItems.removeChild(listItem1);
                             listItems.removeChild(listItem2);
                             listItems.removeChild(listItem3);
@@ -325,91 +323,92 @@
                             edit_description.value = res.data.Dish;
                             edit_catogary.value = res.data.Table;
                         }
-                    })
-                    .catch(err => console.log(err));
+                    }
+                } catch (errr) {
+                    console.log(err);
+                }
             }
+            DataApi();
         }//submit ends here
 
         // when page refresh starts here
+        let refreshData = async () => {
+            let res = await axios.get('https://crudcrud.com/api/c84f01b99c404c5895c6e43ef0df305e/order');
+            for (let j in res.data) {
+                //li for amount
+                let listItem1 = document.createElement('li');
+                listItem1.id = 'item1';
+                listItem1.className = 'class-item1';
+                listItem1.appendChild(document.createTextNode('Order_Amount: ' + res.data[j].Order_Amount));
+                listItems.appendChild(listItem1);
 
-        axios.get('https://crudcrud.com/api/22a756973ed643e681ab6a189bb4a661/order')
-            .then(res => {
-                for (let j in res.data) {
-                    //li for amount
-                    let listItem1 = document.createElement('li');
-                    listItem1.id = 'item1';
-                    listItem1.className = 'class-item1';
-                    listItem1.appendChild(document.createTextNode('Order_Amount: ' + res.data[j].Order_Amount));
-                    listItems.appendChild(listItem1);
+                //li for description
+                let listItem2 = document.createElement('li');
+                listItem2.id = 'item2';
+                listItem2.className = 'class-item2';
+                listItem2.appendChild(document.createTextNode('Dish: ' + res.data[j].Dish));
+                listItems.appendChild(listItem2);
 
-                    //li for description
-                    let listItem2 = document.createElement('li');
-                    listItem2.id = 'item2';
-                    listItem2.className = 'class-item2';
-                    listItem2.appendChild(document.createTextNode('Dish: ' + res.data[j].Dish));
-                    listItems.appendChild(listItem2);
+                //li for catogary
+                let listItem3 = document.createElement('li');
+                listItem3.id = 'item3';
+                listItem3.className = 'class-item3';
+                listItem3.appendChild(document.createTextNode('Table: ' + res.data[j].Table));
+                listItems.appendChild(listItem3);
 
-                    //li for catogary
-                    let listItem3 = document.createElement('li');
-                    listItem3.id = 'item3';
-                    listItem3.className = 'class-item3';
-                    listItem3.appendChild(document.createTextNode('Table: ' + res.data[j].Table));
-                    listItems.appendChild(listItem3);
+                // listItems.innerHTML = `${listItems.innerHTML}
+                //     <li id="item1"  class="class-item1">Expence_Amount: ${storeExpAmount}</li>
+                //     <li id="item2"  class="class-item2">Description: ${storeDescription}</li>
+                //     <li id="item3"  class="class-item3">Catogary: ${storeCatogary}</li>
+                //     <button type="button" id="dlBtn">Delete Expence</button>
+                //     <button type="button" id="edtBtn">Edit Expence</button>
+                // `;
 
-                    // listItems.innerHTML = `${listItems.innerHTML}
-                    //     <li id="item1"  class="class-item1">Expence_Amount: ${storeExpAmount}</li>
-                    //     <li id="item2"  class="class-item2">Description: ${storeDescription}</li>
-                    //     <li id="item3"  class="class-item3">Catogary: ${storeCatogary}</li>
-                    //     <button type="button" id="dlBtn">Delete Expence</button>
-                    //     <button type="button" id="edtBtn">Edit Expence</button>
-                    // `;
+                //adding delete button 
+                let deleteBtn = document.createElement('button');
+                deleteBtn.type = 'button';
+                deleteBtn.id = 'dlBtn';
+                deleteBtn.className = 'dltBtnClass';
+                deleteBtn.appendChild(document.createTextNode('Delete Order'));
+                listItems.appendChild(deleteBtn);
 
-                    //adding delete button 
-                    let deleteBtn = document.createElement('button');
-                    deleteBtn.type = 'button';
-                    deleteBtn.id = 'dlBtn';
-                    deleteBtn.className = 'dltBtnClass';
-                    deleteBtn.appendChild(document.createTextNode('Delete Order'));
-                    listItems.appendChild(deleteBtn);
+                //adding space
+                let spaceBtwn = document.createElement('span');
+                spaceBtwn.appendChild(document.createTextNode(' '));
+                listItems.appendChild(spaceBtwn);
 
-                    //adding space
-                    let spaceBtwn = document.createElement('span');
-                    spaceBtwn.appendChild(document.createTextNode(' '));
-                    listItems.appendChild(spaceBtwn);
+                //adding edit button 
+                let editBtn = document.createElement('button');
+                editBtn.type = 'button';
+                editBtn.id = 'edtBtn';
+                editBtn.className = 'edttBtnClass';
+                editBtn.appendChild(document.createTextNode('Edit Order'));
+                listItems.appendChild(editBtn);
 
-                    //adding edit button 
-                    let editBtn = document.createElement('button');
-                    editBtn.type = 'button';
-                    editBtn.id = 'edtBtn';
-                    editBtn.className = 'edttBtnClass';
-                    editBtn.appendChild(document.createTextNode('Edit Order'));
-                    listItems.appendChild(editBtn);
-
-                    deleteBtn.onclick = () => {
-                        axios.delete(`https://crudcrud.com/api/22a756973ed643e681ab6a189bb4a661/order/${res.data[j]._id}`)
-                        listItems.removeChild(listItem1);
-                        listItems.removeChild(listItem2);
-                        listItems.removeChild(listItem3);
-                        listItems.removeChild(deleteBtn);
-                        listItems.removeChild(editBtn);
-                    }
-
-                    editBtn.onclick = () => {
-                        flag = true;
-                        editId = res.data[j]._id;
-                        let edit_expence = document.querySelector('#form_name');
-                        let edit_description = document.querySelector('#form_descrp');
-                        let edit_catogary = document.querySelector('#id-catogary');
-
-                        edit_expence.value = res.data[j].Order_Amount;
-                        edit_description.value = res.data[j].Dish;
-                        edit_catogary.value = res.data[j].Table;
-                    }
+                deleteBtn.onclick = () => {
+                    axios.delete(`https://crudcrud.com/api/c84f01b99c404c5895c6e43ef0df305e/order/${res.data[j]._id}`);
+                    listItems.removeChild(listItem1);
+                    listItems.removeChild(listItem2);
+                    listItems.removeChild(listItem3);
+                    listItems.removeChild(deleteBtn);
+                    listItems.removeChild(editBtn);
                 }
-            })
-            .catch(err => {
-                console.log(err);
-            });//when refresh page ends here
+
+                editBtn.onclick = () => {
+                    flag = true;
+                    editId = res.data[j]._id;
+                    let edit_expence = document.querySelector('#form_name');
+                    let edit_description = document.querySelector('#form_descrp');
+                    let edit_catogary = document.querySelector('#id-catogary');
+
+                    edit_expence.value = res.data[j].Order_Amount;
+                    edit_description.value = res.data[j].Dish;
+                    edit_catogary.value = res.data[j].Table;
+                }
+            }
+        };
+        refreshData();
+
 
     </script>
 
