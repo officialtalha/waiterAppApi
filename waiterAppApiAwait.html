@@ -49,6 +49,12 @@
         hr {
             border-color: black;
         }
+        .class-item1{
+            font-weight: 700;
+        }
+        .class-item2{
+            font-weight: 700;
+        }
     </style>
 </head>
 
@@ -167,15 +173,21 @@
                     if (flag) {
                         listItems.innerHTML = ``;
 
-                        let res1 = await axios.put(`https://crudcrud.com/api/c84f01b99c404c5895c6e43ef0df305e/order/${editId}`, {
+                        let res1 = await axios.put(`https://crudcrud.com/api/f17a1f415a564039b8912c3615bdb3d5/order/${editId}`, {
                             Order_Amount: document.querySelector('#form_name').value,
                             Dish: document.querySelector('#form_descrp').value,
                             Table: document.querySelector('#id-catogary').value
                         });
 
-                        let res = await axios.get('https://crudcrud.com/api/c84f01b99c404c5895c6e43ef0df305e/order');
+                        let res = await axios.get('https://crudcrud.com/api/f17a1f415a564039b8912c3615bdb3d5/order');
 
                         for (let j in res.data) {
+                            //heading tag for table no
+                            let headingTable = document.createElement('h3');
+                            headingTable.id = 'headingTable1';
+                            headingTable.className = 'text-muted';
+                            headingTable.appendChild(document.createTextNode(res.data[j].Table));
+                            listItems.appendChild(headingTable);
                             //li for amount
                             let listItem1 = document.createElement('li');
                             listItem1.id = 'item1';
@@ -191,11 +203,11 @@
                             listItems.appendChild(listItem2);
 
                             //li for catogary
-                            let listItem3 = document.createElement('li');
-                            listItem3.id = 'item3';
-                            listItem3.className = 'class-item3';
-                            listItem3.appendChild(document.createTextNode('Table: ' + res.data[j].Table));
-                            listItems.appendChild(listItem3);
+                            // let listItem3 = document.createElement('li');
+                            // listItem3.id = 'item3';
+                            // listItem3.className = 'class-item3';
+                            // listItem3.appendChild(document.createTextNode('Table: ' + res.data[j].Table));
+                            // listItems.appendChild(listItem3);
 
                             // listItems.innerHTML = `${listItems.innerHTML}
                             //     <li id="item1"  class="class-item1">Expence_Amount: ${storeExpAmount}</li>
@@ -209,24 +221,30 @@
                             let deleteBtn = document.createElement('button');
                             deleteBtn.type = 'button';
                             deleteBtn.id = 'dlBtn';
-                            deleteBtn.className = 'dltBtnClass';
+                            deleteBtn.className = 'btn btn-outline-danger btn-sm';
                             deleteBtn.appendChild(document.createTextNode('Delete Order'));
                             listItems.appendChild(deleteBtn);
+
+                            //adding space
+                            let spaceBtwn = document.createElement('span');
+                            spaceBtwn.appendChild(document.createTextNode(' '));
+                            listItems.appendChild(spaceBtwn);
 
                             //adding edit button 
                             let editBtn = document.createElement('button');
                             editBtn.type = 'button';
                             editBtn.id = 'edtBtn';
-                            editBtn.className = 'edtBtnClass';
+                            editBtn.className = 'btn btn-outline-info btn-sm';
                             editBtn.appendChild(document.createTextNode('Edit Order'));
                             listItems.appendChild(editBtn);
 
                             deleteBtn.onclick = () => {
-                                axios.delete(`https://crudcrud.com/api/c84f01b99c404c5895c6e43ef0df305e/order/${res.data[j]._id}`);
+                                axios.delete(`https://crudcrud.com/api/f17a1f415a564039b8912c3615bdb3d5/order/${res.data[j]._id}`);
+                                listItems.removeChild(headingTable);
                                 listItems.removeChild(listItem1);
                                 listItems.removeChild(listItem2);
-                                listItems.removeChild(listItem3);
                                 listItems.removeChild(deleteBtn);
+                                listItems.removeChild(spaceBtwn);
                                 listItems.removeChild(editBtn);
                             }
 
@@ -254,8 +272,15 @@
                         };
 
 
-                        let res = await axios.post('https://crudcrud.com/api/c84f01b99c404c5895c6e43ef0df305e/order', User_1)
+                        let res = await axios.post('https://crudcrud.com/api/f17a1f415a564039b8912c3615bdb3d5/order', User_1)
                         //creating li tags and show the data on the page
+
+                        //heading tag for table no
+                        let headingTable = document.createElement('h3');
+                        headingTable.id = 'headingTable1';
+                        headingTable.className = 'text-muted';
+                        headingTable.appendChild(document.createTextNode(res.data.Table));
+                        listItems.appendChild(headingTable);
 
                         //li for amount
                         let listItem1 = document.createElement('li');
@@ -272,11 +297,11 @@
                         listItems.appendChild(listItem2);
 
                         //li for catogary
-                        let listItem3 = document.createElement('li');
-                        listItem3.id = 'item3';
-                        listItem3.className = 'class-item3';
-                        listItem3.appendChild(document.createTextNode('Table: ' + res.data.Table));
-                        listItems.appendChild(listItem3);
+                        // let listItem3 = document.createElement('li');
+                        // listItem3.id = 'item3';
+                        // listItem3.className = 'class-item3';
+                        // listItem3.appendChild(document.createTextNode('Table: ' + res.data.Table));
+                        // listItems.appendChild(listItem3);
 
                         // listItems.innerHTML = `${listItems.innerHTML}
                         //     <li id="item1"  class="class-item1">Expence_Amount: ${storeExpAmount}</li>
@@ -290,24 +315,30 @@
                         let deleteBtn = document.createElement('button');
                         deleteBtn.type = 'button';
                         deleteBtn.id = 'dlBtn';
-                        deleteBtn.className = 'dltBtnClass';
+                        deleteBtn.className = 'btn btn-outline-danger btn-sm';
                         deleteBtn.appendChild(document.createTextNode('Delete Order'));
                         listItems.appendChild(deleteBtn);
+
+                        //adding space
+                        let spaceBtwn = document.createElement('span');
+                        spaceBtwn.appendChild(document.createTextNode(' '));
+                        listItems.appendChild(spaceBtwn);
 
                         //adding edit button 
                         let editBtn = document.createElement('button');
                         editBtn.type = 'button';
                         editBtn.id = 'edtBtn';
-                        editBtn.className = 'edtBtnClass';
+                        editBtn.className = 'btn btn-outline-info btn-sm';
                         editBtn.appendChild(document.createTextNode('Edit Order'));
                         listItems.appendChild(editBtn);
 
                         deleteBtn.onclick = () => {
-                            axios.delete(`https://crudcrud.com/api/c84f01b99c404c5895c6e43ef0df305e/order/${res.data._id}`);
+                            axios.delete(`https://crudcrud.com/api/f17a1f415a564039b8912c3615bdb3d5/order/${res.data._id}`);
+                            listItems.removeChild(headingTable);
                             listItems.removeChild(listItem1);
                             listItems.removeChild(listItem2);
-                            listItems.removeChild(listItem3);
                             listItems.removeChild(deleteBtn);
+                            listItems.removeChild(spaceBtwn);
                             listItems.removeChild(editBtn);
                         }
 
@@ -333,78 +364,96 @@
 
         // when page refresh starts here
         let refreshData = async () => {
-            let res = await axios.get('https://crudcrud.com/api/c84f01b99c404c5895c6e43ef0df305e/order');
-            for (let j in res.data) {
-                //li for amount
-                let listItem1 = document.createElement('li');
-                listItem1.id = 'item1';
-                listItem1.className = 'class-item1';
-                listItem1.appendChild(document.createTextNode('Order_Amount: ' + res.data[j].Order_Amount));
-                listItems.appendChild(listItem1);
+            try {
+                let res = await axios.get('https://crudcrud.com/api/f17a1f415a564039b8912c3615bdb3d5/order');
+                for (let j in res.data) {
+                    //heading tag for table no
+                    let headingTable = document.createElement('h3');
+                    headingTable.id = 'headingTable1';
+                    headingTable.className = 'text-muted';
+                    headingTable.appendChild(document.createTextNode(res.data[j].Table));
+                    listItems.appendChild(headingTable);
 
-                //li for description
-                let listItem2 = document.createElement('li');
-                listItem2.id = 'item2';
-                listItem2.className = 'class-item2';
-                listItem2.appendChild(document.createTextNode('Dish: ' + res.data[j].Dish));
-                listItems.appendChild(listItem2);
+                    //li for amount
+                    let listItem1 = document.createElement('li');
+                    listItem1.id = 'item1';
+                    listItem1.className = 'class-item1';
+                    listItem1.appendChild(document.createTextNode('Order_Amount: ' + res.data[j].Order_Amount));
+                    listItems.appendChild(listItem1);
 
-                //li for catogary
-                let listItem3 = document.createElement('li');
-                listItem3.id = 'item3';
-                listItem3.className = 'class-item3';
-                listItem3.appendChild(document.createTextNode('Table: ' + res.data[j].Table));
-                listItems.appendChild(listItem3);
+                    //li for description
+                    let listItem2 = document.createElement('li');
+                    listItem2.id = 'item2';
+                    listItem2.className = 'class-item2';
+                    listItem2.appendChild(document.createTextNode('Dish: ' + res.data[j].Dish));
+                    listItems.appendChild(listItem2);
 
-                // listItems.innerHTML = `${listItems.innerHTML}
-                //     <li id="item1"  class="class-item1">Expence_Amount: ${storeExpAmount}</li>
-                //     <li id="item2"  class="class-item2">Description: ${storeDescription}</li>
-                //     <li id="item3"  class="class-item3">Catogary: ${storeCatogary}</li>
-                //     <button type="button" id="dlBtn">Delete Expence</button>
-                //     <button type="button" id="edtBtn">Edit Expence</button>
-                // `;
+                    //li for catogary
+                    // let listItem3 = document.createElement('li');
+                    // listItem3.id = 'item3';
+                    // listItem3.className = 'class-item3';
+                    // listItem3.appendChild(document.createTextNode('Table: ' + res.data[j].Table));
+                    // listItems.appendChild(listItem3);
 
-                //adding delete button 
-                let deleteBtn = document.createElement('button');
-                deleteBtn.type = 'button';
-                deleteBtn.id = 'dlBtn';
-                deleteBtn.className = 'dltBtnClass';
-                deleteBtn.appendChild(document.createTextNode('Delete Order'));
-                listItems.appendChild(deleteBtn);
+                    // listItems.innerHTML = `${listItems.innerHTML}
+                    //     <li id="item1"  class="class-item1">Expence_Amount: ${storeExpAmount}</li>
+                    //     <li id="item2"  class="class-item2">Description: ${storeDescription}</li>
+                    //     <li id="item3"  class="class-item3">Catogary: ${storeCatogary}</li>
+                    //     <button type="button" id="dlBtn">Delete Expence</button>
+                    //     <button type="button" id="edtBtn">Edit Expence</button>
+                    // `;
 
-                //adding space
-                let spaceBtwn = document.createElement('span');
-                spaceBtwn.appendChild(document.createTextNode(' '));
-                listItems.appendChild(spaceBtwn);
+                    //adding delete button 
+                    let deleteBtn = document.createElement('button');
+                    deleteBtn.type = 'button';
+                    deleteBtn.id = 'dlBtn';
+                    deleteBtn.className = 'btn btn-outline-danger btn-sm';
+                    deleteBtn.appendChild(document.createTextNode('Delete Order'));
+                    listItems.appendChild(deleteBtn);
 
-                //adding edit button 
-                let editBtn = document.createElement('button');
-                editBtn.type = 'button';
-                editBtn.id = 'edtBtn';
-                editBtn.className = 'edttBtnClass';
-                editBtn.appendChild(document.createTextNode('Edit Order'));
-                listItems.appendChild(editBtn);
+                    //adding space
+                    let spaceBtwn = document.createElement('span');
+                    spaceBtwn.appendChild(document.createTextNode(' '));
+                    listItems.appendChild(spaceBtwn);
 
-                deleteBtn.onclick = () => {
-                    axios.delete(`https://crudcrud.com/api/c84f01b99c404c5895c6e43ef0df305e/order/${res.data[j]._id}`);
-                    listItems.removeChild(listItem1);
-                    listItems.removeChild(listItem2);
-                    listItems.removeChild(listItem3);
-                    listItems.removeChild(deleteBtn);
-                    listItems.removeChild(editBtn);
+                    //adding edit button 
+                    let editBtn = document.createElement('button');
+                    editBtn.type = 'button';
+                    editBtn.id = 'edtBtn';
+                    editBtn.className = 'btn btn-outline-info btn-sm';
+                    editBtn.appendChild(document.createTextNode('Edit Order'));
+                    listItems.appendChild(editBtn);
+
+                    //break line
+                    // let spanBreakLine = document.createElement('span');
+                    // let breakLine = document.createElement('br');
+                    // spanBreakLine.appendChild(breakLine);
+                    // listItems.appendChild(spanBreakLine);
+
+                    deleteBtn.onclick = () => {
+                        axios.delete(`https://crudcrud.com/api/f17a1f415a564039b8912c3615bdb3d5/order/${res.data[j]._id}`);
+                        listItems.removeChild(headingTable);
+                        listItems.removeChild(listItem1);
+                        listItems.removeChild(listItem2);
+                        listItems.removeChild(deleteBtn);
+                        listItems.removeChild(spaceBtwn);
+                        listItems.removeChild(editBtn);
+                    }
+
+                    editBtn.onclick = () => {
+                        flag = true;
+                        editId = res.data[j]._id;
+                        let edit_expence = document.querySelector('#form_name');
+                        let edit_description = document.querySelector('#form_descrp');
+                        let edit_catogary = document.querySelector('#id-catogary');
+
+                        edit_expence.value = res.data[j].Order_Amount;
+                        edit_description.value = res.data[j].Dish;
+                        edit_catogary.value = res.data[j].Table;
+                    }
                 }
-
-                editBtn.onclick = () => {
-                    flag = true;
-                    editId = res.data[j]._id;
-                    let edit_expence = document.querySelector('#form_name');
-                    let edit_description = document.querySelector('#form_descrp');
-                    let edit_catogary = document.querySelector('#id-catogary');
-
-                    edit_expence.value = res.data[j].Order_Amount;
-                    edit_description.value = res.data[j].Dish;
-                    edit_catogary.value = res.data[j].Table;
-                }
+            } catch (err) {
+                console.log(err);
             }
         };
         refreshData();
